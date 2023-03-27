@@ -1,5 +1,4 @@
 import cv2
-import numpy as np
 import os
 import pytesseract
 
@@ -38,33 +37,27 @@ def recognize_license_plate(image):
 
 
 def main():
-    # Load the first image
-    image = cv2.imread(russia_1)
+ # Load the images
+    images = [(russia_1, "russia1"), (russia_2, "russia2"), (texas, "texas")]
 
-    # Detect the license plates
-    license_plate_locations = detect_license_plates(image)
+    for image_path, image_name in images:
+        image = cv2.imread(image_path)
 
-    # Extract the license plates
-    license_plates = list(map(extract_license_plate, [image]*len(license_plate_locations), license_plate_locations))
+        # Detect the license plates
+        license_plate_locations = detect_license_plates(image)
 
-    # Recognize the license plates
-    license_plate_characters = list(map(recognize_license_plate, license_plates))
+        # Extract the license plates
+        license_plates = list(map(extract_license_plate, [image]*len(license_plate_locations), license_plate_locations))
 
-    # Print the detected license plate locations and characters
-    print("License plate locations:")
-    print(license_plate_locations)
+        # Recognize the license plates
+        license_plate_characters = list(map(recognize_license_plate, license_plates))
 
-    print("License plate characters:")
-    print(license_plate_characters)
+        # Print the detected license plate locations and characters
+        print(f"License plate locations ({image_name}):")
+        print(license_plate_locations)
 
-
-# Find two more Russian license plates
-
-# Image 2
-# image2 = cv2.imread(russia_2)
-
-# Image 3
-# image3 = cv2.imread(texas)
+        print(f"License plate characters ({image_name}):")
+        print(license_plate_characters)
 
 
 if __name__ == '__main__':
